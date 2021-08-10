@@ -1,0 +1,36 @@
+<head></head>
+<body>
+
+    <textarea name="taName" id="taName" cols="30" rows="10" readonly=""></textarea>
+    <form id="chatForm" data-url="ws://localhost:1113/ws" onsubmit="sendMessage();return false;">
+        <input type="text" name="textInput">
+        <button onclick="sendMessage();return false;">YOLO</button>
+    </form>
+
+    <script type="text/javascript">
+    var chatForm = document.getElementById("chatForm")
+    var messagesBox = document.getElementById("taName")
+
+    let socket = new WebSocket(chatForm.dataset.url)
+    
+    socket.onopen = function(e) {
+        console.log(e)
+    }
+    socket.onmessage = function(e) {
+        console.log(e)
+        messagesBox.append(e.data.toString()+"\n")
+    }
+
+    sendMessage = function() {
+        var formData = new FormData(chatForm)
+        var msg = formData.get("textInput")
+        socket.send(JSON.stringify(msg))
+    }
+        
+    
+    </script>
+</body>
+
+
+
+
